@@ -2,6 +2,64 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 
+//main
+
+function _init()
+ game_over=false
+ make_player()
+end
+
+function _update()
+ move_player()
+end
+
+function _draw()
+ cls()
+ draw_player()
+end
+-->8
+//player
+
+function make_player()
+	player = {}
+	player.x = 0
+	player.y = 0
+	player.dy = 0
+	player.lives = 0
+	player.ncoin = 0
+	player.sprite = 0
+end
+
+function move_player()
+	
+end
+
+function draw_player()
+	
+end
+-->8
+//coin
+
+function make_coin()
+	coin = {}
+	coin.x = 0
+	coin.y = 0
+	coin.dy = 0
+	coin.value = 0
+	coin.sprite = 0
+end
+
+function move_coin()
+	
+end
+
+function draw_coin()
+	
+end
+-->8
+//hammer
+-->8
+//
 __gfx__
 00000000009aa700009aa700000970000009700000097000009aa700000000000000000000000000000000000000000000000000000000000000000000000000
 0000000009aaaa7009aaaa70009aa70000097000009aa70009aaaa70000000000000000000000000000000000000000000000000000000000000000000000000
