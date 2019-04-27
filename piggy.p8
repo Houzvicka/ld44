@@ -397,7 +397,7 @@ function draw_ob(item)
 end
 
 function move_ob(ob)
-	ob.x -= curr_speed/2
+	ob.x -= curr_speed
 end
 
 
