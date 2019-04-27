@@ -50,7 +50,7 @@ function make_player()
 	player.dy = 0
 	player.lives = 0
 	player.ncoin = 0
-	player.sprite = 16
+	player.sprite = 80
 end
 
 function move_player()
@@ -88,7 +88,7 @@ function move_player()
 end
 
 function draw_player()
-	spr(player.sprite,player.x,player.y,2,2)
+	spr(player.sprite,player.x,player.y,4,3)
 end
 -->8
 //coin
