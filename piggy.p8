@@ -127,6 +127,10 @@ function move_player()
 	
 	--jump
  if (btn(2)) then
+   if not(player.on_ground) and player.y != player.jump_height+41 then
+  then
+   player.jump_alowed = false
+  end
   if player.jump_alowed and player.jump_height < 10 then
    player.dy-=3
 		 player.stuck = false;
