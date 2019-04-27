@@ -129,7 +129,6 @@ function move_player()
  if (btn(2)) then
   if player.jump_alowed and player.jump_height < 10 then
    player.dy-=3
-   --player.x+=0.5
 		 player.stuck = false;
    player.jump_height+=1
   elseif player.on_ground then
@@ -348,7 +347,7 @@ function draw_item(item)
 end
 
 function move_item(item)
-	item.x -= curr_speed/2
+ item.x -= curr_speed/2
 end
 -->8
 //obstacles
@@ -368,7 +367,7 @@ end
 
 function move_obs()
  for i in all(obstacles) do
-  	if(i.x == player.x+32) 
+  	if(i.x == player.x+32 and player.y == 41) 
 		 then
 		  player.stuck = true
 		  bg=0
