@@ -37,6 +37,9 @@ function _update()
  move_items()
  move_obs()
  
+ if game_over and btn(5) then
+  game_start()
+ end
 end
 
 function _draw()
@@ -67,6 +70,7 @@ function game_start()
 end
 
 function game_end()
+ bg=0
  curr_speed = 0
  player.lives = 0
  game_over=true
@@ -93,17 +97,21 @@ function make_player()
 end
 
 function animate_player()
-	if can_animate then
 		if player.lives == 2 then
-		 player.sprite=fs[fp]
+		 if can_animate then
+		  player.sprite=fs[fp]
+		 end
 		elseif player.lives == 1 then
-			player.sprite=fhs[fp]
+		 if can_animate then
+			 player.sprite=fhs[fp]
+			end
 		else player.sprite=fds
 		end
-	end
 end
 
 function move_player()
+
+ animate_player()
 
 	player.dy = gravity*2
 	
@@ -114,11 +122,8 @@ function move_player()
  else
   player.on_ground=false      
  end
-
-	
 	printh(player.jump_height)
 	printh(player.dy)
-	printh(player.jump_alowed)
 	printh(player.on_ground)
 	
 	--jump
@@ -157,7 +162,6 @@ function move_player()
  --move to new position
  player.y+=player.dy
  --player.x+=1
- animate_player()
 end
 
 function player_hit()
@@ -268,7 +272,11 @@ function move_hammer()
 end
 
 function smash_hammer()
+	if game_over then return end
 	fliprot = not(fliprot)
+	if curr_speed == 0.5 and fliprot then
+	 player_hit()
+	end
 end
 -->8
 //global
