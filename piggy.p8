@@ -7,15 +7,18 @@ __lua__
 function _init()
  game_over=false
  make_player()
+ make_coin()
 end
 
 function _update()
  move_player()
+ check_collision()
 end
 
 function _draw()
  cls()
  draw_player()
+ draw_coin()
 end
 -->8
 //player
@@ -53,8 +56,34 @@ function move_coin()
 	
 end
 
+function check_collision()
+	if(hit(coin.x+2,coin.y+2,6,6)) then
+	end
+end
+
 function draw_coin()
-	
+	map(0, 0, 0, 0, 128, 32)
+ spr(coin.sprite,0,0)
+ print(collide)
+end
+
+function hit(x,y,w,h)
+  collide=false
+  for i=x,x+w,w do
+    if (fget(mget(i/8,y/8))>0) or
+         (fget(mget(i/8,(y+h)/8))>0) then
+          collide=true
+    end
+  end
+  
+  for i=y,y+h,h do
+    if (fget(mget(x/8,i/8))>0) or
+         (fget(mget((x+w)/8,i/8))>0) then
+          collide=true
+    end
+  end
+  
+  return collide
 end
 -->8
 //hammer
