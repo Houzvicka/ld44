@@ -70,8 +70,9 @@ function game_start()
 end
 
 function game_end()
- bg=0
- curr_speed = 0
+ player.stuck = true
+	bg=0
+	curr_speed=0
  player.lives = 0
  game_over=true
 end
@@ -94,6 +95,7 @@ function make_player()
 	player.jump_height = 0
 	player.jump_alowed = true
 	player.on_ground = false
+	player.stuck = false
 end
 
 function animate_player()
@@ -122,14 +124,13 @@ function move_player()
  else
   player.on_ground=false      
  end
-	printh(player.jump_height)
-	printh(player.dy)
-	printh(player.on_ground)
 	
 	--jump
  if (btn(2)) then
   if player.jump_alowed and player.jump_height < 10 then
    player.dy-=3
+   --player.x+=0.5
+		 player.stuck = false;
    player.jump_height+=1
   elseif player.on_ground then
    player.jump_alowed = true
@@ -139,29 +140,22 @@ function move_player()
  end
  
  --move player right
- if btn(1) then
+ if btn(1) and not(player.stuck) then
    curr_speed=1.5 --right
    can_animate = true
 
  --move player left
- elseif btn(0) then
+ elseif btn(0) and not(player.stuck) then
    curr_speed=0.5 --left
    can_animate = false
 
- else
+ elseif not(player.stuck) then
    curr_speed=1
    can_animate = true
  end
  
- --obstacle colision
- if hit(player.x,player.y+player.dy,32,22) == 10 then
-  curr_speed=0  
-  bg=0   
- end
- 
  --move to new position
  player.y+=player.dy
- --player.x+=1
 end
 
 function player_hit()
@@ -374,6 +368,13 @@ end
 
 function move_obs()
  for i in all(obstacles) do
+  	if(i.x == player.x+32) 
+		 then
+		  player.stuck = true
+		  bg=0
+		  curr_speed=0
+		 else
+	 end
  	move_ob(i)
  end
 end
