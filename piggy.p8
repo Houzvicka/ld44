@@ -40,6 +40,7 @@ function make_player()
 	player.lives = 0
 	player.ncoin = 0
 	player.sprite = 64
+	player.flip = false
 end
 
 function animate_player()
@@ -71,19 +72,22 @@ function move_player()
  if btn(1) then
    player.x+=1 --right
    animate_player()
+   player.flip = false
  end
  
  --move player left
  if btn(0) then
    player.x-=1 --left
    animate_player()
+   --flip the sprite
+   player.flip = true
  end
  
  --move to new position
  player.y+=player.dy
 end
 function draw_player()
-	spr(player.sprite,player.x,player.y,4,4)
+	spr(player.sprite,player.x,player.y,4,4,player.flip )
 end
 -->8
 //coin
