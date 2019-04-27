@@ -30,11 +30,30 @@ function make_player()
 end
 
 function move_player()
+
+	player.dy = gravity
 	
+	--jump
+ if (btnp(2)) then
+  player.dy-=11
+ end
+ 
+ --move player right
+ if btn(1) then
+   player.x+=1 --right
+ end
+ 
+ --move player left
+ if btn(0) then
+   player.x-=1 --left
+ end
+ 
+ --move to new position
+ player.y+=player.dy
 end
 
-function draw_player()
-	
+function draw_player()	
+ spr(player.sprite,player.x,player.y)
 end
 -->8
 //coin
@@ -58,7 +77,9 @@ end
 -->8
 //hammer
 -->8
-//
+//global
+
+gravity=1
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
