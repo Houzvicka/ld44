@@ -12,6 +12,7 @@ end
 
 function _update()
  move_player()
+ move_coin()
  check_collision()
  animate_coin()
 end
@@ -55,7 +56,7 @@ function make_coin()
 	coin = {}
 	coin.x = 0
 	coin.y = 0
-	coin.dy = 0
+	coin.dy = 1
 	coin.value = 0
 	coin.sprite = 1
 end
@@ -67,7 +68,9 @@ function animate_coin()
 end
 
 function move_coin()
-	
+	gravity=1
+	coin.dy = gravity
+	coin.y += coin.dy	
 end
 
 function check_collision()
@@ -76,7 +79,7 @@ function check_collision()
 end
 
 function draw_coin()
- spr(coin.sprite,0,0)
+ spr(coin.sprite,coin.x,coin.y)
  --print(collide)
 end
 
