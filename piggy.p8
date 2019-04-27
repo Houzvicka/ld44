@@ -1,7 +1,6 @@
 pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
-
 //main
 
 function _init()
@@ -43,7 +42,26 @@ function make_player()
 end
 
 function move_player()
+
+	player.dy = gravity
 	
+	--jump
+ if (btnp(2)) then
+  player.dy-=11
+ end
+ 
+ --move player right
+ if btn(1) then
+   player.x+=1 --right
+ end
+ 
+ --move player left
+ if btn(0) then
+   player.x-=1 --left
+ end
+ 
+ --move to new position
+ player.y+=player.dy
 end
 
 function draw_player()
@@ -106,7 +124,9 @@ end
 -->8
 //hammer
 -->8
-//
+//global
+
+gravity=1
 __gfx__
 00000000009aa700009aa700000970000009700000097000009aa700000000000000000000000000000000000000000000000000000000000000000000000000
 0000000009aaaa7009aaaa70009aa70000097000009aa70009aaaa70000000000000000000000000000000000000000000000000000000000000000000000000
