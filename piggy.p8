@@ -5,10 +5,12 @@ __lua__
 
 function _init()
 	t,fc,fp,s=0,1,1,4 --tick,frame,step
+	expandmap = 0
 	cs={1,2,3,4,5,6}
 	fs={64,68}
  game_over=false
  make_player()
+<<<<<<< HEAD
  
  for i=0,4 do
 		newcoin = make_coin(i)
@@ -17,14 +19,27 @@ function _init()
  
  printh("int")
  
+=======
+
+>>>>>>> codeM
 end
 
 function _update()
 	t=(t+1)%s --tick fwd
+	expandmap=(expandmap+1)%80
  if (t==0)then
   fc=fc%#cs+1
   fp=fp%#fs+1
  end
+ 
+ if(expandmap == 0) then
+  newcoin = make_coin(player.x)
+		add(coins,newcoin)
+		if(#coins > 10) then
+			del(coins,coins[0])
+		end
+ end
+ 
  move_player()
  move_coins()
  
@@ -33,6 +48,7 @@ end
 function _draw()
  cls()
  map(0, 0, 0, 0, 128, 32)
+ camera(player.x,0)
  draw_player()
  draw_coins()
  
@@ -41,6 +57,7 @@ function _draw()
 end
 -->8
 //player
+can_animate = true
 
 function make_player()
 	player = {}
@@ -84,6 +101,7 @@ function move_player()
  --move player left
  if btn(0) then
    player.x-=1 --left
+   can_animate = false
  end
  
  --move to new position
