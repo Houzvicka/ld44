@@ -6,11 +6,6 @@ __lua__
 function _init()
 	t,fc,fp,s=0,1,1,4 --tick,frame,step
 	expandmap = 0
-	cs={1,2,3,4,5,6}
-	fs={64,68}
-	fhs={72,76}
-	fds=12
- game_over=false
  make_player()
 end
 
@@ -49,9 +44,28 @@ function _draw()
  
  --draw score
  print("coins: "..player.ncoin, player.x - 30, 10)
+ 
+ --draw lives
+ print("lives: "..player.lives, player.x - 30, 20)
+end
+
+function game_start()
+ curr_speed = 1
+ player.lives = 2
+ game_over=false
+end
+
+function game_end()
+ curr_speed = 0
+ player.lives = 0
+ game_over=true
 end
 -->8
 //player
+
+fs={80,84} --happy pig
+fhs={88,92} --damaged pig
+fds=28 --dead pig
 can_animate = true
 
 function make_player()
@@ -61,7 +75,10 @@ function make_player()
 	player.dy = 0
 	player.lives = 2
 	player.ncoin = 0
-	player.sprite = 64
+	player.sprite = 80
+	player.jump_height = 0
+	player.jump_alowed = true
+	player.on_ground = false
 end
 
 function animate_player()
@@ -77,21 +94,30 @@ end
 
 function move_player()
 
- on_ground=false
-	player.dy = gravity
+	player.dy = gravity*2
 	
 	--ground colision
- if hit(player.x,player.y+player.dy,30,30) == 8 then
-  on_ground=true
+ if hit(player.x,player.y+player.dy,32,22) == 8 then
+  player.on_ground=true
   player.dy=0
  else
-  on_ground=false      
+  player.on_ground=false      
  end
 	
+	printh(player.jump_height)
+	printh(player.dy)
+	printh(player.jump_alowed)
+	printh(player.on_ground)
+	
 	--jump
- if (btnp(2)) then
-  if (on_ground) then
-   player.dy-=20
+ if (btn(2)) then
+  if player.jump_alowed and player.jump_height < 10 then
+   player.dy-=3
+   player.jump_height+=1
+  elseif player.on_ground then
+   player.jump_alowed = true
+   player.jump_height = 0
+   player.dy=0
   end
  end
  
@@ -116,13 +142,24 @@ function move_player()
  animate_player()
 end
 
+function player_hit()
+ if player.lives == 2 then
+  player.lives-=1
+ elseif player.lives == 1 then
+  game_end()
+ end
+end
+
 function draw_player()
-	spr(player.sprite,player.x,player.y,4,4)
+	spr(player.sprite,player.x,player.y,4,3)
 end
 -->8
 //coin
 
 coins = {}
+--coin sprite
+cs={12,13,14,15,14,13}
+	
 
 function move_coins()
  for c in all(coins) do
@@ -171,9 +208,9 @@ end
 
 function check_collision(coin)
 
-	if(coin.x >=player.x and coin.x+6 <=player.x+30) 
+	if(coin.x >=player.x-5 and coin.x <=player.x+24) 
 	then
-		if(coin.y >= player.y and coin.y+6 <=player.y+30) 
+		if(coin.y >= player.y and coin.y <=player.y+32) 
 		then
 		colect_coin(coin)
 		end
@@ -304,5 +341,5 @@ __map__
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000000000000000003700270000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
