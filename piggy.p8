@@ -8,6 +8,8 @@ function _init()
 	expandmap = 0
 	cs={1,2,3,4,5,6}
 	fs={64,68}
+	fhs={72,76}
+	fds=12
  game_over=false
  make_player()
 end
@@ -32,7 +34,6 @@ function _update()
  move_player()
  move_coins()
  
- printh("bg "..bg)
 end
 
 function _draw()
@@ -58,14 +59,19 @@ function make_player()
 	player.x = 30
 	player.y = 30
 	player.dy = 0
-	player.lives = 0
+	player.lives = 2
 	player.ncoin = 0
 	player.sprite = 64
 end
 
 function animate_player()
 	if can_animate then
-		player.sprite=fs[fp]
+		if player.lives == 2 then
+		 player.sprite=fs[fp]
+		elseif player.lives == 1 then
+			player.sprite=fhs[fp]
+		else player.sprite=fds
+		end
 	end
 end
 
