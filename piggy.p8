@@ -2,25 +2,37 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 //main
+coins = {}
 
 function _init()
  game_over=false
  make_player()
- make_coin()
+
+ for i=0,3 do
+		newcoin = make_coin(i)
+		add(coins,newcoin)
+ end
+ 
 end
 
 function _update()
  move_player()
- move_coin()
- check_collision()
- animate_coin()
+ 
+ for c in all(coins) do
+ 	move_coin(c)
+ 	check_collision(c)
+ 	animate_coin(c)
+ end
+ 
 end
 
 function _draw()
  cls()
  map(0, 0, 0, 0, 128, 32)
  draw_player()
- draw_coin()
+ for c in all(coins) do
+ 	draw_coin(c)
+ end 
 end
 
 function wait(a) 
@@ -70,35 +82,36 @@ end
 -->8
 //coin
 
-function make_coin()
-	coin = {}
-	coin.x = 0
-	coin.y = 0
+function make_coin(pos)
+	local coin = {}
+	coin.x = pos * 25
+	coin.y = rnd(20)
 	coin.dy = 1
 	coin.value = 0
-	coin.sprite = 1
+	coin.sprite = min(pos+1,6)
+	coin.id = pos
+	return coin
 end
 
-function animate_coin()
+function animate_coin(coin)
 	coin.sprite+=1
  if (coin.sprite==6) coin.sprite=1
 	wait(3)
 end
 
-function move_coin()
-	gravity=1
+function move_coin(coin)
 	coin.dy = gravity
 	coin.y += coin.dy	
 end
 
-function check_collision()
+function check_collision(coin)
 	if(hit(coin.x+2,coin.y+2,6,6)) then
 	end
 end
 
-function draw_coin()
+function draw_coin(coin)
  spr(coin.sprite,coin.x,coin.y)
- --print(collide)
+ print(collide)
 end
 
 function hit(x,y,w,h)
