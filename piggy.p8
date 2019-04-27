@@ -19,6 +19,12 @@ function _update()
  if (t==0)then
   fc=fc%#cs+1
   fp=fp%#fs+1
+  
+  newground = make_ground(player.x)
+		add(grounds,newground)
+		if(#grounds > 50) then
+			del(grounds,grounds[0])		
+  end
  end
  
  if(expandmap == 0) then
@@ -40,6 +46,7 @@ function _draw()
  camera(player.x,0)
  draw_player()
  draw_coins()
+ draw_grounds()
  
  --draw score
  print("coins: "..player.ncoin, player.x, 0)
@@ -51,7 +58,7 @@ can_animate = true
 function make_player()
 	player = {}
 	player.x = 10
-	player.y = 10
+	player.y = -20
 	player.dy = 0
 	player.lives = 0
 	player.ncoin = 0
@@ -202,6 +209,30 @@ function hit(x,y,w,h)
   end
   
   return collide
+end
+-->8
+//map
+
+grounds = {}
+lastx = 0
+
+function draw_grounds()
+ for g in all(grounds) do
+ 	draw_ground(g)
+ end 
+end
+
+function draw_ground(ground)
+ spr(ground.sprite,ground.x,ground.y)
+end
+
+function make_ground(pos)
+	local ground = {}
+	ground.x = lastx + 8
+	lastx += 8
+	ground.y = 100
+	ground.sprite = 7
+	return ground
 end
 __gfx__
 00000000009aa700009aa700000970000009700000097000009aa7004b4bb4b40000000000000000000000000000000000000000000000000000000000000000
