@@ -4,8 +4,9 @@ __lua__
 //main
 
 function _init()
-	t,f,s=0,1,4 --tick,frame,step
+	t,fc,fp,s=0,1,1,4 --tick,frame,step
 	cs={1,2,3,4,5,6}
+	fs={64,68}
  game_over=false
  make_player()
 
@@ -18,7 +19,10 @@ end
 
 function _update()
 	t=(t+1)%s --tick fwd
- if (t==0) f=f%#cs+1
+ if (t==0)then
+  fc=fc%#cs+1
+  fp=fp%#fs+1
+ end
  move_player()
  move_coins()
 end
@@ -40,12 +44,10 @@ function make_player()
 	player.lives = 0
 	player.ncoin = 0
 	player.sprite = 64
-	player.flip = false
 end
 
 function animate_player()
- 	player.sprite+=4
-	if (player.sprite==72) player.sprite=64
+	player.sprite=fs[fp]
 end
 
 function move_player()
@@ -71,23 +73,21 @@ function move_player()
  --move player right
  if btn(1) then
    player.x+=1 --right
-   animate_player()
-   player.flip = false
  end
  
  --move player left
  if btn(0) then
    player.x-=1 --left
-   animate_player()
-   --flip the sprite
-   player.flip = true
  end
  
  --move to new position
  player.y+=player.dy
+ player.x+=1
+ animate_player()
 end
+
 function draw_player()
-	spr(player.sprite,player.x,player.y,4,4,player.flip )
+	spr(player.sprite,player.x,player.y,4,4)
 end
 -->8
 //coin
@@ -127,7 +127,7 @@ function make_coin(pos)
 end
 
 function animate_coin(coin)
- coin.sprite=cs[f]
+ coin.sprite=cs[fc]
 end
 
 function move_coin(coin)
