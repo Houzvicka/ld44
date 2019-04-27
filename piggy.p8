@@ -6,7 +6,7 @@ coins = {}
 
 function _init()
 	t,f,s=0,1,4 --tick,frame,step
-	sp={1,2,3,4,5,6}
+	cs={1,2,3,4,5,6}
  game_over=false
  make_player()
 
@@ -19,7 +19,7 @@ end
 
 function _update()
 	t=(t+1)%s --tick fwd
- if (t==0) f=f%#sp+1
+ if (t==0) f=f%#cs+1
  move_player()
  
  for c in all(coins) do
@@ -57,6 +57,11 @@ function make_player()
 	player.sprite = 64
 end
 
+function animate_player()
+ 	player.sprite+=4
+	if (player.sprite==72) player.sprite=64
+end
+
 function move_player()
 
  on_ground=false
@@ -80,11 +85,13 @@ function move_player()
  --move player right
  if btn(1) then
    player.x+=1 --right
+   animate_player()
  end
  
  --move player left
  if btn(0) then
    player.x-=1 --left
+   animate_player()
  end
  
  --move to new position
@@ -109,7 +116,7 @@ function make_coin(pos)
 end
 
 function animate_coin(coin)
- coin.sprite=sp[f]
+ coin.sprite=cs[f]
 end
 
 function move_coin(coin)
