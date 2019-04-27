@@ -1,65 +1,158 @@
 pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
-
 //main
+coins = {}
 
 function _init()
  game_over=false
  make_player()
+
+ for i=0,3 do
+		newcoin = make_coin(i)
+		add(coins,newcoin)
+ end
+ 
 end
 
 function _update()
  move_player()
+ 
+ for c in all(coins) do
+ 	move_coin(c)
+ 	check_collision(c)
+ 	animate_coin(c)
+ end
+ 
 end
 
 function _draw()
  cls()
+ map(0, 0, 0, 0, 128, 32)
  draw_player()
+ for c in all(coins) do
+ 	draw_coin(c)
+ end 
+end
+
+function wait(a) 
+	for i = 1,a do 
+		flip() 
+	end 
 end
 -->8
 //player
 
 function make_player()
 	player = {}
-	player.x = 0
-	player.y = 0
+	player.x = 10
+	player.y = 10
 	player.dy = 0
 	player.lives = 0
 	player.ncoin = 0
-	player.sprite = 0
+	player.sprite = 64
 end
 
 function move_player()
+
+ on_ground=false
+	player.dy = gravity*2
 	
+	--ground colision
+ if hit(player.x,player.y+player.dy,30,30) == 8 then
+  on_ground=true
+  player.dy=0
+  else
+  on_ground=false      
+ end
+	
+	--jump
+ if (btnp(2)) then
+  if (on_ground) then
+   player.dy-=11
+  end
+ end
+ 
+ --move player right
+ if btn(1) then
+   player.x+=1 --right
+ end
+ 
+ --move player left
+ if btn(0) then
+   player.x-=1 --left
+ end
+ 
+ --move to new position
+ player.y+=player.dy
 end
 
 function draw_player()
-	
+	spr(player.sprite,player.x,player.y,4,4)
 end
 -->8
 //coin
 
-function make_coin()
-	coin = {}
-	coin.x = 0
-	coin.y = 0
-	coin.dy = 0
+function make_coin(pos)
+	local coin = {}
+	coin.x = pos * 25
+	coin.y = rnd(20)
+	coin.dy = 1
 	coin.value = 0
-	coin.sprite = 0
+	coin.sprite = min(pos+1,6)
+	coin.id = pos
+	return coin
 end
 
-function move_coin()
-	
+function animate_coin(coin)
+	coin.sprite+=1
+ if (coin.sprite==6) coin.sprite=1
+	wait(3)
 end
 
-function draw_coin()
-	
+function move_coin(coin)
+	coin.dy = gravity
+	coin.y += coin.dy	
 end
+
+function check_collision(coin)
+	if(hit(coin.x+2,coin.y+2,6,6)) then
+	end
+end
+
+function draw_coin(coin)
+ spr(coin.sprite,coin.x,coin.y)
+ print(collide)
+end
+
+
 -->8
 //hammer
 -->8
-//
+//global
+
+gravity=1
+
+function hit(x,y,w,h)
+  collide=0
+  for i=x,x+w,w do
+    if (fget(mget(i/8,y/8))>0)
+     then collide=fget(mget(i/8,y/8))
+    elseif (fget(mget(i/8,(y+h)/8))>0)
+     then collide=fget(mget(i/8,(y+h)/8))
+    end
+  end
+  
+  for i=y,y+h,h do
+    if (fget(mget(x/8,i/8))>0)
+     then collide=fget(mget(x/8,i/8))
+    elseif (fget(mget((x+w)/8,i/8))>0) 
+     then collide=fget(mget((x+w)/8,i/8))
+    end
+  end
+  
+  return collide
+end
 __gfx__
 00000000009aa700009aa700000970000009700000097000009aa700000000000000000000000000000000000000000000000000000000000000000000000000
 0000000009aaaa7009aaaa70009aa70000097000009aa70009aaaa70000000000000000000000000000000000000000000000000000000000000000000000000
@@ -125,6 +218,9 @@ b333333b00fffff00fffff0000000000000000000000000000000000000000000000000000000000
 00000000000888e2200888e22000000000000000000888e2200888e2200000000000000000000000000000000000000000000000000000000000000000000000
 00000000000888e2200888e22000000000000000000888e2200888e2200000000000000000000000000000000000000000000000000000000000000000000000
 00000000000888e0000888e000000000000000000000022220000222200000000000000000000000000000000000000000000000000000000000000000000000
+__gff__
+0004040404040400000000000000000001010101000000000000000000000000010101010000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __map__
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
