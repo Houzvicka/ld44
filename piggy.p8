@@ -263,7 +263,7 @@ end
 items = {}
 
 function put_items()
-	item = put_item(16)
+	item = put_item(1)
 	add(items,item)
 end
 
@@ -275,7 +275,7 @@ end
 
 function put_item(index)
 	local item = {}
-	item.x = 60
+	item.x = 70
 	item.y = 30
 	item.sprite = index
 	return item
