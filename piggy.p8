@@ -10,6 +10,8 @@ function _init()
 	fs={64,68}
  game_over=false
  make_player()
+ make_hammer()
+ put_items()
 end
 
 function _update()
@@ -27,10 +29,13 @@ function _update()
 		if(#coins > 10) then
 			del(coins,coins[0])
 		end
+		
+		smash_hammer()
  end
  
  move_player()
  move_coins()
+ move_hammer()
  
  printh("bg "..bg)
 end
@@ -45,6 +50,8 @@ function _draw()
  
  draw_player()
  draw_coins()
+ draw_hammer()
+ draw_items()
  
  --draw score
  print("coins: "..player.ncoin, player.x - 30, 10)
@@ -187,6 +194,28 @@ end
 
 -->8
 //hammer
+
+degrees = 0
+fliprot = false
+
+function make_hammer()
+	hammer = {}
+	hammer.x = 0
+	hammer.y = 30
+	hammer.sprite = 8
+end
+
+function draw_hammer()
+	spr(hammer.sprite,hammer.x,hammer.y,4,4, false, fliprot)
+end
+
+function move_hammer()
+	hammer.x = -curr_speed*10+10
+end
+
+function smash_hammer()
+	fliprot = not(fliprot)
+end
 -->8
 //global
 
@@ -221,6 +250,33 @@ curr_speed =1
 
 function draw_grounds()
  bg = (bg+curr_speed)%64
+end
+-->8
+//background
+
+items = {}
+
+function put_items()
+	item = put_item(16)
+	add(items,item)
+end
+
+function draw_items()
+ for i in all(items) do
+ 	draw_item(i)
+ end
+end
+
+function put_item(index)
+	local item = {}
+	item.x = 60
+	item.y = 30
+	item.sprite = index
+	return item
+end
+
+function draw_item(item)
+ spr(item.sprite,item.x,item.y,2,2)
 end
 __gfx__
 00000000009aa700009aa700000970000009700000097000009aa700ffffffff0000000000000000000000000000000000000000000000000000000000000000
