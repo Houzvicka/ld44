@@ -88,7 +88,7 @@ function move_player()
 end
 
 function draw_player()
-	spr(player.sprite,player.x,player.y,4,3)
+	spr(player.sprite,player.x,player.y,4,4)
 end
 -->8
 //coin
