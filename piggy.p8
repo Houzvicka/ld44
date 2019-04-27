@@ -13,7 +13,6 @@ function _init()
  game_over=false
  make_player()
  make_hammer()
- put_items()
 end
 
 function _update()
@@ -34,12 +33,14 @@ function _update()
 		
 		smash_hammer()
 		put_items()
+		put_obs()
  end
  
  move_player()
  move_coins()
  move_hammer()
  move_items()
+ move_obs()
  
 end
 
@@ -51,7 +52,7 @@ function _draw()
  draw_grounds()
  map(0, 0, -bg, 0, 128, 32)
  
- 
+ draw_obs()
  draw_items()
  draw_hammer()
  draw_player()
@@ -302,6 +303,49 @@ end
 
 function move_item(item)
 	item.x -= curr_speed/2
+end
+-->8
+//obstacles
+
+obstacles = {}
+obstacleslocs = {16,32,48,39,55}
+cur = 1
+
+function put_obs()
+	ob = put_ob(obstacleslocs[cur])
+	add(obstacles,ob)
+	cur += 1
+	if cur == #obstacleslocs then
+		cur = 1
+	end
+end
+
+function move_obs()
+ for i in all(obstacles) do
+ 	move_ob(i)
+ end
+end
+
+function draw_obs()
+ for i in all(obstacles) do
+ 	draw_ob(i)
+ end
+end
+
+function put_ob(index)
+	local ob = {}
+	ob.x = 150
+	ob.y = 58
+	ob.sprite = index
+	return ob
+end
+
+function draw_ob(item)
+ spr(item.sprite,item.x,item.y,1,1)
+end
+
+function move_ob(ob)
+	ob.x -= curr_speed/2
 end
 __gfx__
 00000000444444444444444400000000000000000000070700000000ffffffff00000000000000000000000000000000009aa700009aa7000009700000097000
