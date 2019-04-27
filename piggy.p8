@@ -5,10 +5,12 @@ __lua__
 coins = {}
 
 function _init()
+	t,f,s=0,1,4 --tick,frame,step
+	sp={1,2,3,4,5,6}
  game_over=false
  make_player()
 
- for i=0,3 do
+ for i=0,4 do
 		newcoin = make_coin(i)
 		add(coins,newcoin)
  end
@@ -16,6 +18,8 @@ function _init()
 end
 
 function _update()
+	t=(t+1)%s --tick fwd
+ if (t==0) f=f%#sp+1
  move_player()
  
  for c in all(coins) do
@@ -95,7 +99,7 @@ end
 
 function make_coin(pos)
 	local coin = {}
-	coin.x = pos * 25
+	coin.x = pos * 35 + 50
 	coin.y = rnd(20)
 	coin.dy = 1
 	coin.value = 0
@@ -105,8 +109,7 @@ function make_coin(pos)
 end
 
 function animate_coin(coin)
-	coin.sprite+=1
- if (coin.sprite==6) coin.sprite=1
+ coin.sprite=sp[f]
 end
 
 function move_coin(coin)
