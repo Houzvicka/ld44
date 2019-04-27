@@ -18,7 +18,7 @@ end
 
 function _update()
 	t=(t+1)%s --tick fwd
-	expandmap=(expandmap+1)%80
+	expandmap=(expandmap+1)%90
  if (t==0)then
   fc=fc%#cs+1
   fp=fp%#fs+1
@@ -33,11 +33,13 @@ function _update()
 		end
 		
 		smash_hammer()
+		put_items()
  end
  
  move_player()
  move_coins()
  move_hammer()
+ move_items()
  
 end
 
@@ -49,10 +51,11 @@ function _draw()
  draw_grounds()
  map(0, 0, -bg, 0, 128, 32)
  
+ 
+ draw_items()
+ draw_hammer()
  draw_player()
  draw_coins()
- draw_hammer()
- draw_items()
  
  --draw score
  print("coins: "..player.ncoin, player.x - 30, 10)
@@ -261,10 +264,22 @@ end
 //background
 
 items = {}
+bigitemlocs = {1,5,33,35,37}
+curindex = 1
 
 function put_items()
-	item = put_item(1)
+	item = put_item(bigitemlocs[curindex])
 	add(items,item)
+	curindex += 1
+	if curindex == #bigitemlocs then
+		curindex = 1
+	end
+end
+
+function move_items()
+ for i in all(items) do
+ 	move_item(i)
+ end
 end
 
 function draw_items()
@@ -275,14 +290,18 @@ end
 
 function put_item(index)
 	local item = {}
-	item.x = 70
-	item.y = 30
+	item.x = 150
+	item.y = max(rnd(40),20)
 	item.sprite = index
 	return item
 end
 
 function draw_item(item)
  spr(item.sprite,item.x,item.y,2,2)
+end
+
+function move_item(item)
+	item.x -= curr_speed/2
 end
 __gfx__
 00000000444444444444444400000000000000000000070700000000ffffffff00000000000000000000000000000000009aa700009aa7000009700000097000
