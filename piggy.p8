@@ -10,18 +10,7 @@ function _init()
 	fs={64,68}
  game_over=false
  make_player()
-<<<<<<< HEAD
  
- for i=0,4 do
-		newcoin = make_coin(i)
-		add(coins,newcoin)
- end
- 
- printh("int")
- 
-=======
-
->>>>>>> codeM
 end
 
 function _update()
@@ -70,7 +59,9 @@ function make_player()
 end
 
 function animate_player()
-	player.sprite=fs[fp]
+	if can_animate then
+		player.sprite=fs[fp]
+	end
 end
 
 function move_player()
@@ -134,7 +125,7 @@ end
 
 function make_coin(pos)
 	local coin = {}
-	coin.x = pos * 35
+	coin.x = pos + 100
 	coin.y = rnd(20)
 	coin.dy = 1
 	coin.value = 0
