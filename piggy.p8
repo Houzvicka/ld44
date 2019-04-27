@@ -107,12 +107,21 @@ end
 function animate_coin(coin)
 	coin.sprite+=1
  if (coin.sprite==6) coin.sprite=1
-	wait(3)
 end
 
 function move_coin(coin)
 	coin.dy = gravity
-	coin.y += coin.dy	
+	
+		--ground colision
+ if hit(coin.x,coin.y+coin.dy,14,14) == 8 then
+  on_ground=true
+  coin.dy=0
+  else
+  on_ground=false      
+ end
+ 
+ 	coin.y += coin.dy
+ 	
 end
 
 function check_collision(coin)
