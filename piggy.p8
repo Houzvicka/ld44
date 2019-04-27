@@ -18,8 +18,15 @@ end
 
 function _draw()
  cls()
+ map(0, 0, 0, 0, 128, 32)
  draw_player()
  draw_coin()
+end
+
+function wait(a) 
+	for i = 1,a do 
+		flip() 
+	end 
 end
 -->8
 //player
@@ -31,7 +38,7 @@ function make_player()
 	player.dy = 0
 	player.lives = 0
 	player.ncoin = 0
-	player.sprite = 0
+	player.sprite = 16
 end
 
 function move_player()
@@ -39,7 +46,7 @@ function move_player()
 end
 
 function draw_player()
-	
+	spr(player.sprite,10,10,2,2)
 end
 -->8
 //coin
@@ -56,6 +63,7 @@ end
 function animate_coin()
 	coin.sprite+=1
  if (coin.sprite==6) coin.sprite=1
+	wait(3)
 end
 
 function move_coin()
@@ -68,9 +76,8 @@ function check_collision()
 end
 
 function draw_coin()
-	map(0, 0, 0, 0, 128, 32)
  spr(coin.sprite,0,0)
- print(collide)
+ --print(collide)
 end
 
 function hit(x,y,w,h)
@@ -91,6 +98,8 @@ function hit(x,y,w,h)
   
   return collide
 end
+
+
 -->8
 //hammer
 -->8
