@@ -63,13 +63,8 @@ function move_player()
  player.y+=player.dy
 end
 
-<<<<<<< HEAD
-function draw_player()	
- spr(player.sprite,player.x,player.y)
-=======
 function draw_player()
 	spr(player.sprite,10,10,2,2)
->>>>>>> d7943a7e76e9b07aaf061b78bc3535e3b8689394
 end
 -->8
 //coin
