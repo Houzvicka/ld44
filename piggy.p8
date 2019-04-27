@@ -32,7 +32,6 @@ function _update()
  move_player()
  move_coins()
  
- printh("bg "..bg)
 end
 
 function _draw()
