@@ -13,6 +13,7 @@ end
 function _update()
  move_player()
  check_collision()
+ animate_coin()
 end
 
 function _draw()
@@ -49,7 +50,12 @@ function make_coin()
 	coin.y = 0
 	coin.dy = 0
 	coin.value = 0
-	coin.sprite = 0
+	coin.sprite = 1
+end
+
+function animate_coin()
+	coin.sprite+=1
+ if (coin.sprite==6) coin.sprite=1
 end
 
 function move_coin()
