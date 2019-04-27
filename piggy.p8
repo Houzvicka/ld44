@@ -2,43 +2,22 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 //main
-coins = {}
 
 function _init()
- game_over=false
  make_player()
-
- for i=0,3 do
-		newcoin = make_coin(i)
-		add(coins,newcoin)
- end
- 
+ make_coins()
 end
 
 function _update()
  move_player()
- 
- for c in all(coins) do
- 	move_coin(c)
- 	check_collision(c)
- 	animate_coin(c)
- end
- 
+ move_coins()
 end
 
 function _draw()
  cls()
  map(0, 0, 0, 0, 128, 32)
  draw_player()
- for c in all(coins) do
- 	draw_coin(c)
- end 
-end
-
-function wait(a) 
-	for i = 1,a do 
-		flip() 
-	end 
+ draw_coins()
 end
 -->8
 //player
@@ -86,12 +65,34 @@ function move_player()
  --move to new position
  player.y+=player.dy
 end
-
 function draw_player()
 	spr(player.sprite,player.x,player.y,4,4)
 end
 -->8
 //coin
+
+coins = {}
+
+function make_coins()
+ for i=0,3 do
+		newcoin = make_coin(i)
+		add(coins,newcoin)
+ end
+end
+
+function move_coins()
+ for c in all(coins) do
+ 	move_coin(c)
+ 	check_collision(c)
+ 	animate_coin(c)
+ end
+end
+
+function draw_coins()
+ for c in all(coins) do
+ 	draw_coin(c)
+ end 
+end
 
 function make_coin(pos)
 	local coin = {}
@@ -107,7 +108,7 @@ end
 function animate_coin(coin)
 	coin.sprite+=1
  if (coin.sprite==6) coin.sprite=1
-	wait(3)
+	--wait(3)
 end
 
 function move_coin(coin)
@@ -116,7 +117,8 @@ function move_coin(coin)
 end
 
 function check_collision(coin)
-	if(hit(coin.x+2,coin.y+2,6,6)) then
+	if(hit(coin.x+2,coin.y+2,6,6)==2) then
+	 --colect
 	end
 end
 
@@ -132,6 +134,7 @@ end
 //global
 
 gravity=1
+game_over=false
 
 function hit(x,y,w,h)
   collide=0
