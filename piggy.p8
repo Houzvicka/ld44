@@ -43,11 +43,22 @@ end
 
 function move_player()
 
+ on_ground=false
 	player.dy = gravity*2
+	
+	--ground colision
+ if hit(player.x,player.y+player.dy,14,14) == 8 then
+  on_ground=true
+  player.dy=0
+  else
+  on_ground=false      
+ end
 	
 	--jump
  if (btnp(2)) then
-  player.dy-=11
+  if (on_ground) then
+   player.dy-=11
+  end
  end
  
  --move player right
