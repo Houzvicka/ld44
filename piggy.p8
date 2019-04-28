@@ -67,7 +67,7 @@ end
 function _draw()
 	if mode=="title" then
 		cls()
-		print("press x to start",35,75,15)
+		print("press x to start",35,85,15)
 		spr(192,2,50,16,4)
 	elseif mode=="gameover" then
 	 draw_player()
@@ -342,13 +342,12 @@ function smash_hammer()
 	fliprot = expandmap > 70
 	
 	if (next_hit) then 
-	player_hit() 
-	next_hit = false
+		player_hit() 
+		next_hit = false
 	end
 	
 	if(fliprot and last != fliprot) then
 	 if (abs(player.x - hammer.x) < 20) then
-	  player_hit()
 	  next_hit = true
 		end
 	end
