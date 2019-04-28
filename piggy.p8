@@ -3,6 +3,8 @@ version 18
 __lua__
 //main
 
+time_tracker = 0
+
 function _init()
 	t,fc,fp,s=0,1,1,4 --tick,frame,step
 	expandmap = 0
@@ -41,7 +43,14 @@ function _update()
 	 end
 	 
 	 
-		smash_hammer()
+  if time_tracker < 29 then
+    time_tracker += 1
+  else
+    time_tracker = 0
+    coin_timer += 1
+  end
+	 
+	 smash_hammer()
 	 move_player()
 	 move_coins()
 	 move_hammer()
@@ -80,14 +89,23 @@ function _draw()
 	 print("coins: "..player.ncoin, player.x - 25, 105)
 	 
 	 --draw lives
-	 print("lives: "..player.lives, player.x - 25, 115)
+	 print("lives: "..player.lives, player.x - 25, 112)
+	 
+	 --draw score
+	 print("score: "..player.score, player.x - 25, 119)
+	 
+	 --draw multi
+	 print("multi: "..coin_timer, player.x + 25, 119)
+	 
+	 --curr_speed
+	 print("speed: "..modified_speed, player.x + 25, 112)
 
 	end
 
 end
 
 function game_start()
- curr_speed = 1
+ curr_speed = orig_speed
  player.lives = 2
  game_over=false
  can_animate = true
@@ -118,6 +136,7 @@ function make_player()
 	player.dy = 0
 	player.lives = 2
 	player.ncoin = 0
+	player.score = 0
 	player.sprite = 80
 	player.jump_height = 0
 	player.jump_alowed = true
@@ -127,11 +146,11 @@ end
 
 function animate_player(force)
 		if player.lives == 2 then
-		 if force or curr_speed > 0.5 then
+		 if force or curr_speed > orig_speed/2 then
 		  player.sprite=fs[fp]
 		 end
 		elseif player.lives == 1 then
-		 if force or curr_speed > 0.5 then
+		 if force or curr_speed > orig_speed/2 then
 			 player.sprite=fhs[fp]
 			end
 		else player.sprite=fds
@@ -167,14 +186,14 @@ function move_player()
  
  --move player right
  if btn(1) and not(player.stuck) then
-   curr_speed=1.5 --right
+   curr_speed=orig_speed*1.5 --right
 
  --move player left
  elseif btn(0) and not(player.stuck) then
-   curr_speed=0.5 --left
+   curr_speed=orig_speed/2 --left
 
  elseif not(player.stuck) then
-   curr_speed=1
+   curr_speed=orig_speed
  end
  
  --move to new position
@@ -197,6 +216,7 @@ end
 //coin
 
 coins = {}
+coin_timer = 1
 --coin sprite
 cs={12,13,14,15,14,13}
 	
@@ -261,6 +281,17 @@ end
 function colect_coin(coin)
 	del(coins, coin)
 	player.ncoin+=1
+	add_score()
+end
+
+function lose_coin()
+ player.ncoin-=1
+ add_score()
+end
+
+function add_score()
+ player.score += player.ncoin * coin_timer
+ coin_timer = 1
 end
 
 function draw_coin(coin)
@@ -272,6 +303,7 @@ end
 //hammer
 
 degrees = 0
+its_down = false
 fliprot = false
 
 function make_hammer()
@@ -286,17 +318,24 @@ function draw_hammer()
 end
 
 function move_hammer()
-	if(curr_speed <= 0.5) then
+	if(curr_speed <= orig_speed/2) then
 		hammer.x += curr_speed/2
 	end
 end
 
+last = false
+
 function smash_hammer()
 	if game_over then return end
 	fliprot = expandmap > 70
-	if curr_speed <= 0.5 and fliprot then
-	 player_hit()
+	
+	if(fliprot and last != fliprot) then 
+	 if curr_speed <= orig_speed/2 and fliprot then
+	  player_hit()
+		end
 	end
+	
+	last = fliprot
 end
 -->8
 //global
@@ -328,10 +367,16 @@ end
 //map
 
 bg=0
-curr_speed =1
+orig_speed = 2
+curr_speed = 2
+modified_speed = 0
 
 function draw_grounds()
- bg = (bg+curr_speed)%64
+ modified_speed = curr_speed
+ if player.ncoin != nil then
+  modified_speed = curr_speed * (100-player.ncoin)/100
+ end
+ bg = (bg+modified_speed)%64
 end
 -->8
 //background
@@ -374,7 +419,7 @@ function draw_item(item)
 end
 
 function move_item(item)
- item.x -= curr_speed/3
+ item.x -= curr_speed/2
 end
 -->8
 //obstacles
