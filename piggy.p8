@@ -343,7 +343,7 @@ function smash_hammer()
 	end
 	
 	if(fliprot and last != fliprot) then 
-	 if curr_speed <= orig_speed/2 and fliprot then
+	 if curr_speed <= orig_speed/2 then
 	  next_hit = true
 		end
 	end
