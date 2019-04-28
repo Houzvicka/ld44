@@ -286,7 +286,9 @@ function draw_hammer()
 end
 
 function move_hammer()
-	hammer.x = -curr_speed*10+10
+	if(curr_speed <= 0.5) then
+		hammer.x += curr_speed/2
+	end
 end
 
 function smash_hammer()
@@ -372,7 +374,7 @@ function draw_item(item)
 end
 
 function move_item(item)
- item.x -= curr_speed/2
+ item.x -= curr_speed/3
 end
 -->8
 //obstacles
