@@ -156,9 +156,12 @@ end
 //player
 
 fs={80,84} --happy pig
+jhs=148 --jump happy pig
 fhs={88,92} --damaged pig
+jds=152 --jump damaged pig
 fds=28 --dead pig
 can_animate = true
+released_key = true
 
 function make_player()
 	player = {}
@@ -177,11 +180,15 @@ end
 
 function animate_player(force)
 		if player.lives == 2 then
-		 if force or curr_speed > orig_speed/2 then
+			if player.jump_height > 0 then
+				player.sprite=jhs
+			   elseif force or curr_speed > orig_speed/2 then
 		  player.sprite=fs[fp]
 		 end
 		elseif player.lives == 1 then
-		 if force or curr_speed > orig_speed/2 then
+			if player.jump_height > 0 then
+				player.sprite=jds
+			   elseif force or curr_speed > orig_speed/2 then
 			 player.sprite=fhs[fp]
 			end
 		else player.sprite=fds
@@ -197,6 +204,7 @@ function move_player()
 	--ground colision
  if hit(player.x,player.y+player.dy,32,22) == 8 then
   player.on_ground=true
+  player.jump_height = 0
   player.dy=0
  else
   player.on_ground=false      
@@ -205,11 +213,12 @@ function move_player()
 	jump_sound_played = false
 	--jump
  if (btn(2)) then
-  if not(jump_sound_played) then
-   sfx(02)
-   jump_sound_played = true
-   end
-  if player.jump_alowed and player.jump_height < 6 then
+	if player.jump_alowed and released_key and player.jump_height < 6 then
+		player.dy-=6
+		released_key = false
+		player.stuck = false
+		player.jump_height+=1
+	   elseif player.jump_alowed and player.jump_height > 0 and player.jump_height < 6 then
    player.dy-=6
    player.stuck = false;
    player.jump_height+=1
@@ -219,6 +228,12 @@ function move_player()
    player.jump_height = 0
    player.dy=0
   end
+  if not(jump_sound_played) then
+	sfx(02)
+	jump_sound_played = true
+   end
+  elseif player.jump_height == 0 then
+	  released_key = true
  else
 	player.jump_alowed = false
  end
