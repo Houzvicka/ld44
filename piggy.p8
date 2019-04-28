@@ -188,7 +188,7 @@ function move_player()
 
  animate_player(false)
 
-	player.dy = gravity*2
+	player.dy = gravity*4
 	
 	--ground colision
  if hit(player.x,player.y+player.dy,32,22) == 8 then
@@ -198,17 +198,25 @@ function move_player()
   player.on_ground=false      
  end
 	
-	--jump  sfx(02)
+	jump_sound_played = false
+	--jump
  if (btn(2)) then
-  if player.jump_alowed and player.jump_height < 10 then
-   player.dy-=3
-		 player.stuck = false;
+  if not(jump_sound_played) then
+   sfx(02)
+   jump_sound_played = true
+   end
+  if player.jump_alowed and player.jump_height < 6 then
+   player.dy-=6
+   player.stuck = false;
    player.jump_height+=1
   elseif player.on_ground then
    player.jump_alowed = true
+   jump_sound_played = false
    player.jump_height = 0
    player.dy=0
   end
+ else
+	player.jump_alowed = false
  end
  
  --move player right
