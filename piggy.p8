@@ -393,7 +393,7 @@ end
 
 function move_obs()
  for i in all(obstacles) do
-  	if(i.x == player.x+32 and player.y == 41) 
+  	if(i.x == player.x+28 and player.y == 41) 
 		 then
 		  player.stuck = true
 		  bg=0
