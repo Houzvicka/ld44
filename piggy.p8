@@ -70,6 +70,7 @@ function _draw()
 		print("press x to start",35,75,15)
 		spr(192,2,50,16,4)
 	elseif mode=="gameover" then
+	 draw_player()
 		print("game over! press x to restart",5,5,8)
 	elseif mode=="game" then
 		cls()
@@ -113,7 +114,6 @@ function game_start()
 end
 
 function game_end()
- player.stuck = true
 	bg=0
 	curr_speed=0
  player.lives = 0
@@ -331,14 +331,20 @@ function move_hammer()
 end
 
 last = false
+next_hit = false
 
 function smash_hammer()
 	if game_over then return end
 	fliprot = expandmap > 70
 	
+	if (next_hit) then 
+	player_hit() 
+	next_hit = false
+	end
+	
 	if(fliprot and last != fliprot) then 
 	 if curr_speed <= orig_speed/2 and fliprot then
-	  player_hit()
+	  next_hit = true
 		end
 	end
 	
