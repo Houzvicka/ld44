@@ -100,19 +100,19 @@ function _draw()
 	 draw_particles()
 	 
 	 --draw score
-	 print("coins: "..player.ncoin, player.x - 25, 105)
+	 print("coins: "..player.ncoin, player.x - 25, 112)
 	 
 	 --draw lives
-	 print("lives: "..player.lives, player.x - 25, 112)
+	 --print("lives: "..player.lives, player.x - 25, 112)
 	 
 	 --draw score
 	 print("score: "..player.score, player.x - 25, 119)
 	 
 	 --draw multi
-	 print("multi: "..coin_timer, player.x + 25, 119)
+	 print("multi: "..coin_timer, player.x + 40, 119)
 	 
 	 --curr_speed
-	 print("speed: "..modified_speed, player.x + 25, 112)
+	 print("speed: "..modified_speed, player.x + 40, 112)
 
 	end
 
