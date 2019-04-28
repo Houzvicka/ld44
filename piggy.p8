@@ -6,67 +6,91 @@ __lua__
 function _init()
 	t,fc,fp,s=0,1,1,4 --tick,frame,step
 	expandmap = 0
+	mode = "title"
  make_player()
  make_hammer()
 end
 
 function _update()
-	t=(t+1)%s --tick fwd
-	expandmap=(expandmap+1)%90
- if (t==0)then
-  fc=fc%#cs+1
-  fp=fp%#fs+1
-  
- end
- 
- if(expandmap == 0) then
-  newcoin = make_coin(player.x)
-		add(coins,newcoin)
-		if(#coins > 10) then
-			del(coins,coins[0])
+
+	if mode=="title" then
+		if btnp(5) then --enter game
+			mode = "game"
 		end
-		
-		smash_hammer()
-		put_items()
-		put_obs()
- end
- 
- move_player()
- move_coins()
- move_hammer()
- move_items()
- move_obs()
- 
- if game_over and btn(5) then
-  game_start()
- end
+	elseif mode=="gameover" then
+		if btnp(5) then --enter title
+			mode = "title"
+		end
+	elseif mode=="game" then
+		t=(t+1)%s --tick fwd
+		expandmap=(expandmap+1)%90
+	 if (t==0)then
+	  fc=fc%#cs+1
+	  fp=fp%#fs+1
+	 end
+	 
+	 if(expandmap == 0) then
+	  newcoin = make_coin(player.x)
+			add(coins,newcoin)
+			if(#coins > 10) then
+				del(coins,coins[0])
+			end
+			
+			smash_hammer()
+			put_items()
+			put_obs()
+	 end
+	 
+	 move_player()
+	 move_coins()
+	 move_hammer()
+	 move_items()
+	 move_obs()
+	 
+	 if game_over and btn(5) then
+	  game_start()
+	 end
+	end
+	
 end
 
 function _draw()
- cls()
+	if mode=="title" then
+		cls()
+		print("press x to start",35,75,15)
+		spr(192,0,50,16,4)
+	elseif mode=="gameover" then
+		print("game over! press x to restart",0,10,8)
+	elseif mode=="game" then
+		cls()
+	
+	 camera(player.x - 30,0)
+	
+	 draw_grounds()
+	 map(0, 0, -bg, 0, 128, 32)
+	 
+	 draw_obs()
+	 draw_items()
+	 draw_hammer()
+	 draw_player()
+	 draw_coins()
+	 
+	 --draw score
+	 print("coins: "..player.ncoin, player.x - 30, 110)
+	 
+	 --draw lives
+	 print("lives: "..player.lives, player.x - 30, 120)
 
- camera(player.x - 30,0)
+	end
 
- draw_grounds()
- map(0, 0, -bg, 0, 128, 32)
- 
- draw_obs()
- draw_items()
- draw_hammer()
- draw_player()
- draw_coins()
- 
- --draw score
- print("coins: "..player.ncoin, player.x - 30, 110)
- 
- --draw lives
- print("lives: "..player.lives, player.x - 30, 120)
 end
 
 function game_start()
  curr_speed = 1
  player.lives = 2
  game_over=false
+ can_animate = true
+ make_player()
 end
 
 function game_end()
@@ -75,7 +99,9 @@ function game_end()
 	curr_speed=0
  player.lives = 0
  game_over=true
+ mode="gameover"
 end
+
 -->8
 //player
 
