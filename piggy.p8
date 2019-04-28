@@ -276,9 +276,9 @@ end
 
 function check_collision(coin)
 
-	if(coin.x >=player.x-5 and coin.x <=player.x+24) 
+	if(coin.x >=player.x-5 and coin.x <=player.x+20) 
 	then
-		if(coin.y >= player.y and coin.y <=player.y+32) 
+		if(coin.y > player.y and coin.y < player.y+5) 
 		then
 		colect_coin(coin)
 		end
