@@ -7,13 +7,11 @@ time_tracker = 0
 
 function _init()
  music(00)
- 
-	t,fc,fp,s=0,1,1,4 --tick,frame,step
+ t,fc,fp,s=0,1,1,4 --tick,frame,step
 	expandmap = 0
 	mode = "title"
  make_player()
  make_hammer()
-
 end
 
 function _update()
@@ -21,7 +19,6 @@ function _update()
 	if mode=="title" then
 		if btnp(5) then --enter game
 			mode = "gamestart"
-			start_music()
 		end
 	elseif mode=="gameover" then
 		if btnp(5) then --enter title
@@ -32,7 +29,7 @@ function _update()
 			mode = "game"
 	elseif mode=="game" then		
 		if btnp(4) then
-	  game_start()
+		 _init()
 	  mode = "title"
 	 end	
 	
@@ -122,7 +119,6 @@ function _draw()
 end
 
 function game_start()
- start_music()
  curr_speed = orig_speed
  player.lives = 2
  game_over=false
@@ -138,6 +134,7 @@ function game_start()
 	items = {}
 	coins = {}
  _init()
+ start_music()
 end
 
 function game_end()
@@ -151,6 +148,7 @@ end
 
 function start_music()
  select = flr(rnd(2))
+ printh(select)
  if select == 0 then music(01) end
  if select == 1 then music(04) end
 end
@@ -373,7 +371,7 @@ end
 
 function lose_coin()
  if(player.ncoin > 0) then  
-  player.ncoin-=1
+  player.ncoin+=1
   add_score()
   local poop = make_poop()
   add(poops,poop)
@@ -448,9 +446,9 @@ end
 
 function move_hammer()
 	if(curr_speed <= orig_speed/2) then
-		hammer.x += (curr_speed+1)/2
+		hammer.x += (orig_speed+1)/2
 	elseif(curr_speed > orig_speed) then
-		hammer.x -= curr_speed/2
+		hammer.x -= orig_speed/2
 	end
 	
 	hammer.x = min(hammer.x,player.x-10)
@@ -507,6 +505,7 @@ end
 //map
 
 bg=0
+const = 50
 orig_speed = 2
 curr_speed = 2
 modified_speed = 0
@@ -514,9 +513,12 @@ modified_speed = 0
 function draw_grounds()
  modified_speed = curr_speed
  if player.ncoin != nil then
-  modified_speed = curr_speed * (100-player.ncoin)/100
+  modified_speed = curr_speed * (const-player.ncoin)/const
  end
- bg = (bg+modified_speed)%64
+ if modified_speed == 0 then
+  bg = 0
+ else bg = (bg+modified_speed)%64
+ end
 end
 -->8
 //background
