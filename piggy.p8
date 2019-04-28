@@ -56,6 +56,7 @@ function _update()
 	 move_hammer()
 	 move_items()
 	 move_obs()
+	 move_poops()
 	 
 	 if game_over and btn(5) then
 	  game_start()
@@ -85,6 +86,7 @@ function _draw()
 	 draw_hammer()
 	 draw_player()
 	 draw_coins()
+	 draw_poops()
 	 
 	 --draw score
 	 print("coins: "..player.ncoin, player.x - 25, 105)
@@ -225,6 +227,7 @@ coin_timer = 1
 --coin sprite
 cs={12,13,14,15,14,13}
 	
+poops = {}
 
 function move_coins()
  for c in all(coins) do
@@ -293,7 +296,38 @@ function lose_coin()
  if(player.ncoin > 0) then  
   player.ncoin-=1
   add_score()
+  local poop = make_poop()
+  add(poops,poop)
  end
+end
+
+function make_poop()
+	local poo = {}
+	poo.x = player.x-5
+	poo.y = 74
+	poo.sprite = 128
+	return poo
+end
+
+function draw_poops()
+	for c in all(poops) do
+ 	draw_poop(c)
+ end 
+end
+
+function move_poops()
+ for p in all(poops) do
+ 	move_poop(p)
+ --	animate_poop(p)
+ end
+end
+
+function move_poop(poo)
+	poo.x -= curr_speed	
+end
+
+function draw_poop(poo)
+	spr(poo.sprite,poo.x,poo.y,2,2)
 end
 
 function add_score()
