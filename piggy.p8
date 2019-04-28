@@ -13,6 +13,7 @@ function _init()
 	mode = "title"
  make_player()
  make_hammer()
+
 end
 
 function _update()
@@ -235,7 +236,7 @@ function move_player()
  end
  
  --lose coin button
- if btnp(4) then
+ if btnp(3) then
    lose_coin()
  end
  
