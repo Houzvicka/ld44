@@ -83,8 +83,9 @@ function _draw()
 	 
 	 draw_obs()
 	 draw_items()
-	 draw_hammer()
+	 
 	 draw_player()
+	 draw_hammer()
 	 draw_coins()
 	 draw_poops()
 	 draw_particles()
@@ -113,7 +114,18 @@ function game_start()
  player.lives = 2
  game_over=false
  can_animate = true
+ degrees = 0
+	its_down = false
+	fliprot = false
+	last = false
+	next_hit = false
+	particles = {}
+	poops = {}
+	obstacles = {}
+	items = {}
+	coins = {}
  make_player()
+ make_hammer()
 end
 
 function game_end()
