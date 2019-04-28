@@ -331,7 +331,7 @@ function draw_poop(poo)
 end
 
 function add_score()
- player.score += player.ncoin * coin_timer
+ player.score += (player.ncoin-1) * coin_timer
  coin_timer = 1
 end
 
