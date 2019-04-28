@@ -242,7 +242,7 @@ end
 
 function make_coin(pos)
 	local coin = {}
-	coin.x = rnd(100)+100
+	coin.x = rnd(100)+200
 	coin.y = rnd(20)
 	coin.dy = 1
 	coin.value = 0
@@ -326,8 +326,12 @@ end
 
 function move_hammer()
 	if(curr_speed <= orig_speed/2) then
-		hammer.x += curr_speed/2
+		hammer.x += (curr_speed+1)/2
+	elseif(curr_speed > orig_speed) then
+		hammer.x -= curr_speed/2
 	end
+	
+	hammer.x = min(hammer.x,player.x-10)
 end
 
 last = false
@@ -337,7 +341,7 @@ function smash_hammer()
 	fliprot = expandmap > 70
 	
 	if(fliprot and last != fliprot) then 
-	 if curr_speed <= orig_speed/2 and fliprot then
+	 if (abs(player.x - hammer.x) < 20) then
 	  player_hit()
 		end
 	end
