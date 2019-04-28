@@ -143,7 +143,6 @@ end
 
 function start_music()
  select = flr(rnd(2))
- printh(select)
  if select == 0 then music(01) end
  if select == 1 then music(04) end
 end
