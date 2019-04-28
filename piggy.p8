@@ -20,15 +20,18 @@ function _update()
 
 	if mode=="title" then
 		if btnp(5) then --enter game
-			mode = "game"
+			mode = "gamestart"
 			start_music()
 		end
 	elseif mode=="gameover" then
 		if btnp(5) then --enter title
 			mode = "title"
 		end
+	elseif mode=="gamestart" then
+		 game_start()
+			mode = "game"
 	elseif mode=="game" then		
-		if btn(4) then
+		if btnp(4) then
 	  game_start()
 	  mode = "title"
 	 end	
@@ -67,7 +70,7 @@ function _update()
 	 move_obs()
 	 move_poops()
 	 
-	 if game_over and btn(5) then
+	 if game_over and btnp(5) then
 	  game_start()
 	 end
 	end
