@@ -553,7 +553,7 @@ end
 
 function put_item(index)
 	local item = {}
-	item.x = 150
+	item.x = max(rnd(170),130)
 	item.y = max(rnd(60),20)
 	item.sprite = index
 	return item
@@ -603,7 +603,7 @@ end
 
 function put_ob(index)
 	local ob = {}
-	ob.x = 150
+	ob.x = max(rnd(150),130)
 	ob.y = 84
 	ob.sprite = index
 	return ob
