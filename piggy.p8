@@ -34,7 +34,7 @@ function _update()
 	 end	
 	
 		t=(t+1)%s --tick fwd
-		expandmap=(expandmap+1)%90
+		expandmap=(expandmap+1)%60
 	 if (t==0)then
 	  fc=fc%#cs+1
 	  fp=fp%#fs+1
