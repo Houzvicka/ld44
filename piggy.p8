@@ -79,6 +79,7 @@ function _draw()
 		cls()
 		print("press x to start",35,75,15)
 		spr(192,2,40,16,4)
+		print("use arrow keys to move or poop",5,85,15)
 	elseif mode=="gameover" then
 	 draw_player()
 		print("game over! press x to restart",5,5,8)
@@ -128,6 +129,7 @@ function game_start()
 	fliprot = false
 	last = false
 	next_hit = false
+	coin_timer = 1
 	particles = {}
 	poops = {}
 	obstacles = {}
