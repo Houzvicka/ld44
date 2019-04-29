@@ -87,6 +87,23 @@ function _draw()
 	 draw_items()
 	 draw_hammer()
 	 draw_player()
+	 	 
+	 --draw score
+	 print("coins: "..player.ncoin, player.x - 25, 112)
+	 
+	 --draw lives
+	 --print("lives: "..player.lives, player.x - 25, 112)
+	 
+	 --draw score
+	 print("score: "..player.score, player.x - 25, 119)
+	 
+	 --draw multi
+	 print("multi: "..coin_timer, player.x + 40, 119)
+	 
+	 --curr_speed
+	 print("speed: "..modified_speed, player.x + 40, 112)
+
+	 
 		print("game over! press x to restart",5,5,8)
 	elseif mode=="game" then
 		cls()
