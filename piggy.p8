@@ -527,14 +527,14 @@ end
 //background
 
 items = {}
-bigitemlocs = {1,5,33,35,37}
+bigitemlocs = {1,5,3,33,35,37}
 curindex = 1
 
 function put_items()
 	item = put_item(bigitemlocs[curindex])
 	add(items,item)
 	curindex += 1
-	if curindex == #bigitemlocs then
+	if curindex == #bigitemlocs+1 then
 		curindex = 1
 	end
 end
@@ -577,7 +577,7 @@ function put_obs()
 	ob = put_ob(obstacleslocs[cur])
 	add(obstacles,ob)
 	cur += 1
-	if cur == #obstacleslocs then
+	if cur == #obstacleslocs+1 then
 		cur = 1
 	end
 end
