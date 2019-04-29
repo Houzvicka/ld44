@@ -415,7 +415,8 @@ function draw_poop(poo)
 end
 
 function add_score()
- player.score += (player.ncoin-1) * coin_timer
+ if player.ncoin-1 == 0 then player.score += (player.ncoin) * coin_timer
+ elseif player.ncoin-1 > 0 then player.score += (player.ncoin-1) * coin_timer end
  if player.score < 0 then player.score = 0 end
  coin_timer = 1
 end
