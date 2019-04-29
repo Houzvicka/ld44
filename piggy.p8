@@ -416,6 +416,7 @@ end
 
 function add_score()
  player.score += (player.ncoin-1) * coin_timer
+ if player.score < 0 then player.score = 0 end
  coin_timer = 1
 end
 
