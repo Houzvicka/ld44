@@ -463,7 +463,7 @@ next_hit = false
 
 function smash_hammer()
 	if game_over then return end
-	fliprot = expandmap > 70
+	fliprot = expandmap > 40
 	
 	if (next_hit) then 
 		player_hit() 
