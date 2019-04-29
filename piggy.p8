@@ -81,6 +81,11 @@ function _draw()
 		spr(192,2,40,16,4)
 		print("use arrow keys to move or poop",5,85,15)
 	elseif mode=="gameover" then
+		cls()	 
+	 map(0, 0, -bg, 0, 128, 32)
+		draw_obs()
+	 draw_items()
+	 draw_hammer()
 	 draw_player()
 		print("game over! press x to restart",5,5,8)
 	elseif mode=="game" then
